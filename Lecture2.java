@@ -91,9 +91,29 @@ public class Lecture2 {
 			return count;
 		}
 
-		public int findNthFromEnd(int n) {
+		public Node findNthFromEnd(int n) {
 			if (head == null || n <= 0)
 				return Integer.MIN_VALUE;
+
+			//front tends to get two moves once a time while back moves one 
+			Node front = head;
+			Node back = head;
+
+			//move front first
+			for (int i = 0 ; i < n; i++) {
+				//check if n is larger than length
+				if (front == null)
+					return;
+				front = front.next;
+			}
+
+			//move front and back
+			while (front != null) {
+				front = front.next;
+				back = back.next;
+			}
+
+			return back;
 
 		}
 
@@ -121,7 +141,7 @@ public class Lecture2 {
 
 		// two node starting from head, front moves 2 nodes, back moves 1
 		// if front.next is null, then back is in mid
-		public int findMidOfLinkedLish() {
+		public int findMidOfLinkedList() {
 			if (head == null)
 				return null;
 
