@@ -36,7 +36,7 @@ public class Lecture3 {
 		
 		int low = 0;
 		int high = arr.length - 1;
-		while (low < high) {
+		while (low <= high) {
 			//int mid = arr.length/2;
 			int mid = (low + high)/2;
 			if (arr[mid] == x)
@@ -60,7 +60,7 @@ public class Lecture3 {
 	public boolean binarySearch2(int[] arr, int x, int low, int high) {
 		if (low >= high) return false;
 		//int mid = arr.length/2;
-		int mid = low/2 + high/2;
+		int mid = (low + high)/2;
 		if (arr[mid] == x) return true;
 		else if (arr[mid] < x) return binarySearch2(arr, x, mid + 1, high);
 		else return binarySearch2(arr, x, low, mid - 1);
