@@ -11,6 +11,9 @@ public class Lecture4 {
 
 		String s1 = "123", s2 = "321";
 		System.out.println(isAnagram(s1, s2));
+
+		char[] c = {'a', 'b', 'a', 'c', 'b'};
+		System.out.println(canBePalindrome2(c));
 	}
 
 	//1.
@@ -154,6 +157,126 @@ public class Lecture4 {
 		}
 
 		return true;
+	}
 
+	//7. check all characters are unique
+	//
+	public static boolean isUnique(char[] arr) {
+		HashSet<Character> set = new HashSet<>();
+
+		for (int i = 0; i < arr.length; i++) {
+			if (set.contains(arr[i]))
+				return false;
+			else
+				set.add(arr[i]);
+		}
+
+		return true;
+	}
+
+	//8. can string can be arranged to palindrome
+	// need work
+	public static boolean canBePalindrome(char[] arr) {
+		Arrays.sort(arr);
+
+		boolean alone = false;
+		int count = 0;
+		char curr = arr[0];
+		for (int i = 0; i < arr.length - 1; i++) {
+			if (arr[i] == curr) {
+				count ++;
+			} else {
+				if (count % 2 != 0) {
+					if (alone) alone = false;
+					else {
+						alone = true;
+						curr = arr[i];
+						count = 1;
+					}
+				} else {
+					count = 1;
+				}
+			}
+		}
+		return alone;
+	}
+
+
+	//O(n) extra space
+	public static boolean canBePalindrome2(char[] arr) {
+		HashMap<Character, Integer> map = new HashMap<>();
+
+		for (int i = 0; i < arr.length; i++) {
+			if (!map.containsKey(arr[i])) {
+				map.put(arr[i], 1);
+			} else {
+				map.put(arr[i], 1+ map.get(arr[i]));
+			}
+		}
+
+		boolean odd = false;
+		for (Character c : map.keySet()) {
+			if (map.get(c) % 2 != 0) {
+				if (odd) odd = false;
+				else odd = true;
+			}
+		}
+
+		return odd;
+	}
+
+	//9. compress string 
+	//need test
+	public static String stringCompress(char[] arr) {
+		if (arr.length == 0 || arr.length == 1) return new String(arr);
+
+		char curr = arr[0];
+		int count = 1;
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 1; i < arr.length i ++) {
+			if (arr[i] == curr) {
+				count ++;
+			} else {
+				sb.append(String.valueOf(curr));
+				sb.append(String.valueOf(count));
+				curr = arr[i];
+				count = 1;
+			}
+		}
+
+		sb.append(String.valueOf(curr));
+		sb.append(String.valueOf(count));
+
+		return sb.toString();
+	}
+
+	//10. 
+	//need work
+	public static boolean isRotate() {}
+
+	//11. rotate matrix to right 90 degree size n*n or not n*n
+	//need work
+	public static boolean matrixRotation() {}
+
+	//12. replace space with %20
+	public static String replaceSpace(char[] arr) {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < arr.length; i ++) {
+			if (arr[i] == ' ') {
+				sb.append("%20");
+			} else {
+				sb.append(arr[i]);
+			}
+		}
+		return sb.toString();
+	}
+
+	//13. reverse a sentense 
+	//reverse whole sentence and then reverse words
+	public static String reverseSentence() {
+		
 	}
 }
