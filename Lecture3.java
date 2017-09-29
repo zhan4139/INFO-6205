@@ -13,12 +13,12 @@ public class Lecture3 {
 			System.out.println(arr2[i]);
 		}
 
-		int[] arr3 = {1,1,1,1,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4, 6,6,6};
-		int res = new Lecture3().getOccurances(arr3, 3);
+		int[] arr3 = {1,1,1,2,2,2,2,2,3,4,4,4,5,5,5, 6,6,6};
+		int res = new Lecture3().getOccurances(arr3, 1);
 		System.out.println(res);
 
-		int res2 = new Lecture3().findFirstOccurance(arr3, 3, 0, arr3.length - 1);
-		System.out.println(res2);
+		int res2 = new Lecture3().findFirstOccurance(arr3, 2, 0, arr3.length - 1);
+		System.out.println("occurance at " + res2);
 
 		int[] arr4 = {1, 2, 3, 4, 5, 7, 8, 10};
 		int res3 = new Lecture3().findCeiling(arr4, 9);
@@ -36,7 +36,7 @@ public class Lecture3 {
 		
 		int low = 0;
 		int high = arr.length - 1;
-		while (low < high) {
+		while (low <= high) {
 			//int mid = arr.length/2;
 			int mid = (low + high)/2;
 			if (arr[mid] == x)
@@ -60,7 +60,7 @@ public class Lecture3 {
 	public boolean binarySearch2(int[] arr, int x, int low, int high) {
 		if (low >= high) return false;
 		//int mid = arr.length/2;
-		int mid = low/2 + high/2;
+		int mid = (low + high)/2;
 		if (arr[mid] == x) return true;
 		else if (arr[mid] < x) return binarySearch2(arr, x, mid + 1, high);
 		else return binarySearch2(arr, x, low, mid - 1);
@@ -114,25 +114,27 @@ public class Lecture3 {
 	}
 
 	//find first occurence
-	//
+	//sorted array
 	public int findFirstOccurance(int[] arr, int x, int start, int end) {
 		if (arr[start] > x || arr[end] < x) return -1;
 		if (arr[start] == x) return start;
-
+		
 		int mid = (start + end)/2;
-		if (arr[mid] >= x) return findFirstOccurance(arr, x, start, mid - 1);
-		else return findFirstOccurance(arr, x, mid + 1, end);
+		if (arr[mid] >= x) 
+			return findFirstOccurance(arr, x, start, mid); //Here not mid - 1 !
+		else return findFirstOccurance(arr, x, mid+1, end);
 		//else return findFirstOccurance(arr, x, )
+		
 	}
 
 	//HW: find last occurance
-	//
+	//sorted array
 	public int findLastOccurance(int[] arr, int x, int start, int end) {
 		if (arr[start] > x || arr[end] < x) return -1;
 		if (arr[end] == x) return end;
 
 		int mid = (start + end)/2;
-		if (arr[mid] <= x) return findLastOccurance(arr, x, mid + 1, end);
+		if (arr[mid] <= x) return findLastOccurance(arr, x, mid, end);
 		else return findLastOccurance(arr, x, start, mid - 1);
 		//else return findFirstOccurance(arr, x, )
 	}
@@ -209,15 +211,17 @@ public class Lecture3 {
 		if (low > high) return -1;
 		int mid = (low + high)/2;
 
-		if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1])
+		//check increasing or decreasing arrays and single elements
+		//check mid-1 with 0 and mid+1 with arr.length-1
+		if ((mid == 0 || arr[mid] >= arr[mid - 1]) 
+			&& (mid == arr.length -1 || arr[mid] >= arr[mid + 1]))
 			return mid;
-
-		if (arr[mid] < arr[mid + 1]) 
+		//right half
+		else if (arr[mid] < arr[mid + 1]) 
 			return findPeak(arr, mid + 1, high);
-		else if (arr[mid] < arr[mid + 1])
+		//left half
+		else (arr[mid] > arr[mid + 1])
 			return findPeak(arr, low, mid - 1);
-
-		return -1;
 	}
 
 	//sorted array, re sort it to the wave shape
@@ -260,21 +264,23 @@ public class Lecture3 {
 		}
 	}
 
-	public int findCloseToX(int[] arr, int x) {
+	public void findCloseToX(int[] arr, int x) {
 		Arrays.sort(arr);
 
 		int start = 0; 
 		int end = arr.length - 1;
 		int finalLeft = 0;
 		int finalRight = arr.length - 1;
-
 		int sum = Integer.MAX_VALUE;
-		int diff = Math.abs(arr[start] + arr[end] - x);
+
+		if (end < 1) return;
 
 		while (start < end) {
-			if (diff == 0) {
-				System.out.println("Found " + start + " " + end);
-				return 1;
+			int diff = Math.abs(arr[start] + arr[end] - x);
+			if(diff < sum){
+				finalLeft = start;
+				finalRight = end;
+				sum = diff;    
 			} else if (arr[start] + arr[end] < x) {
 				start ++;
 			} else {
@@ -282,7 +288,8 @@ public class Lecture3 {
 			}
 		}
 
-		return sum;
+		System.out.println("Two elements sum close to x are" + 
+			arr[finalLeft] + " " + arr[finalRight]);
 	}
 
 	//2, 11, 4, 1, 4, 7
