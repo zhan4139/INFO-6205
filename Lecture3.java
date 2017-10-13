@@ -220,7 +220,7 @@ public class Lecture3 {
 		else if (arr[mid] < arr[mid + 1]) 
 			return findPeak(arr, mid + 1, high);
 		//left half
-		else (arr[mid] > arr[mid + 1])
+		else
 			return findPeak(arr, low, mid - 1);
 	}
 
