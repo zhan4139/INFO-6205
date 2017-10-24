@@ -2,7 +2,7 @@ import java.util.HashMap;
 public class TopView {
 	public static void main(String[] args) {
 
-		/*		1
+		/*	    1
 			   / \
 			  2   3
 			 / \  / \
@@ -13,7 +13,7 @@ public class TopView {
 		 */
 
 		Tree tree = new Tree();
-		printTopView(tree.root); //return 1,2,3,3,8,7,11
+		printTopView(tree.root); //return 1,2,4,3,8,7,11
 	}
 
 	public static void printTopView(TreeNode root) {
