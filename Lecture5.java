@@ -1,5 +1,6 @@
 import java.lang.*;
 import java.util.*;
+import java.util.LinkedList;
 public class Lecture5 {
 	public static void main(String[] args) {
 		// TreeNode temp = new TreeNode();
@@ -35,6 +36,9 @@ public class Lecture5 {
 		System.out.println();
 
 		printTopView(tree.root);
+		System.out.println();
+
+		printTopView2(tree.root);
 		System.out.println();
 	}
 
@@ -86,7 +90,7 @@ public class Lecture5 {
 	//need test, self version, did not change order
 	public static void levelOrder(TreeNode root) {
 		if (root == null) return;
-		Queue<TreeNode> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.offer(root);
 		while (!queue.isEmpty()) {
 			TreeNode temp = queue.poll();
@@ -107,7 +111,7 @@ public class Lecture5 {
 	//lecturer version (use a null as a new level flag)
 	public static void levelOrder2(TreeNode root) {
 		if (root == null) return;
-		Queue<TreeNode> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.offer(root);
 		queue.offer(null);
 
@@ -129,7 +133,7 @@ public class Lecture5 {
 	//when it hits a null, check if stack is not empty print it out // zigzag
 	public static void levelOrderReverse(TreeNode root) {
 		if (root == null) return;
-		Queue<TreeNode> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.offer(root);
 		queue.offer(null);
 
@@ -235,7 +239,7 @@ public class Lecture5 {
 	//modify level order traversal, when it hit a null, print the previous value
 	public static void printRightView(TreeNode root) {
 		if (root == null) return;
-		Queue<TreeNode> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.offer(root);
 		queue.offer(null);
 		int lastValue = root.val;
@@ -259,7 +263,7 @@ public class Lecture5 {
 	//in the new level 
 	public static void printLeftView(TreeNode root) {
 		if (root == null) return;
-		Queue<TreeNode> queue = new LinkedList<>();
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
 		queue.offer(root);
 		queue.offer(null);
 		boolean printed = false;
@@ -288,7 +292,8 @@ public class Lecture5 {
 
 	//print top view || (using a pre-order traversal, then use a hashmap to record the the column number as a key, if the value's 
 	//column is already in the key, we skip it. otherwise we add it and print)
-	//HOMEWORK: fix this!
+	//HOMEWORK: fix this! : need one more parameter to record the level order, if found one
+	//with smaller level, update the result (See homwork solution)
 	public static void printTopView(TreeNode root) {
 		HashMap<Integer, Integer> map = new HashMap<>();
 		printTopViewHelper(root, 0, map);
@@ -303,6 +308,25 @@ public class Lecture5 {
 			//root.val = map.get(0);
 			printTopViewHelper(root.right, key + 1, map);
 		}
+	}
+
+	public static void printTopView2(TreeNode root) {
+        Map<Integer, Integer> data = new TreeMap<Integer, Integer>();
+        printTopViewRecursive(data, root, 0);
+        for(int key : data.keySet()) {
+            System.out.print(data.get(key) +" ");
+        }
+    }
+
+
+	private static void printTopViewRecursive(Map<Integer, Integer> hDMap, TreeNode root, int hD) {
+	    if(root == null)
+	        return;
+	    if(!hDMap.containsKey(hD)) {
+	        hDMap.put(hD, root.val);
+	    }
+	    printTopViewRecursive(hDMap, root.left,hD - 1);
+	    printTopViewRecursive(hDMap, root.right, hD + 1);
 	}
 }
 

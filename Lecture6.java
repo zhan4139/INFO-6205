@@ -4,17 +4,21 @@ import java.lang.*;
 class Lecture6 {
 	public static void main(String[] args) {
 		//lecture version
-		binarySequence2(3);
+		binarySequence2(2);
 		
 		//my version
 		List<List<Integer>> res = binarySequence(2);
-
+		//System.out.println("Length of res is " + res.size());
 		for (List<Integer> l1 : res) {
 		   for (Integer n : l1) {
 		       System.out.print(n + " "); 
 		   }
 		   System.out.println();
-		} 
+		}
+
+		//place 0/1 at 3 postions
+		MarySequence(3, 2); 
+		System.out.println("---");
 
 		//combination
 		int[] arr = {1, 2, 3};
@@ -37,18 +41,22 @@ class Lecture6 {
 	public static List<List<Integer>> binarySequence(int n) {
 		List<List<Integer>> res = new ArrayList<>();
 		if (n <= 0) return res;
-		backtracking(res, new ArrayList<Integer> (), n, 0);
+		backtracking(res, new ArrayList<Integer> (), n, 0, 0);
 		return res;
 	}
 
-	//my version, need test
-	private static void backtracking(List<List<Integer>> res, List<Integer> temp, int n, int start) {
-		if (start == n) 
+	//my version - it is combination with reptition(Could be used for combination sum)
+	private static void backtracking(List<List<Integer>> res, List<Integer> temp, int n, int start, int index) {
+		if (index == n) {
 			res.add(new ArrayList<Integer>(temp));
+			return;
+		}
 
-		for (int i = start; i < 2; i++) {
+		for (int i = start; i < n; i++) {
 			temp.add(i);
-			backtracking(res, temp, n, i+1);
+			//System.out.println("Add " + i);
+			backtracking(res, temp, n, i, index + 1);
+			//System.out.println("Remove " + temp.get(temp.size() - 1));
 			temp.remove(temp.size() - 1);
 		}
 	}
@@ -74,7 +82,35 @@ class Lecture6 {
 		}
 	}
 
+	//Mary Sequence m^n (size is n, permutation with repetition)
+	public static void MarySequence(int n, int m) {
+        if (n <= 0)
+            return;
+
+        int[] result = new int[n];
+        int current = 0;
+
+        MarySequence(result, current, m);
+    }
+
+    private static void MarySequence(int[] result, int current, int m) {
+        if (current == result.length) {
+            System.out.print(Arrays.toString(result));
+			System.out.println();
+            return;
+        }
+
+        for (int i = 0; i < m; i++) {
+            result[current] = i;
+            MarySequence(result, current + 1, m);
+        }
+    }
+
+
+
+
 	//combinations[0, 1, 2] return combination of size(with repitition)
+	//!!!!Note: This is permutation with repetition!!!! n^size
 	public static void printCombination(int[] arr, int size) {
 		if (size <= 0 || arr.length <= 0) return;
 		int[] res = new int [size];
@@ -82,8 +118,8 @@ class Lecture6 {
 		combinationBackTrack(res, arr, current, size);
 	}
 
-	private static void combinationBackTrack(int[] res, int[] arr, int current, int m) {
-		if (current == res.length) {
+	private static void combinationBackTrack(int[] res, int[] arr, int current, int size) {
+		if (current == size) {
 			System.out.print(Arrays.toString(res));
 			System.out.println();
 			return;
@@ -91,7 +127,7 @@ class Lecture6 {
 
 		for (int i = 0; i < arr.length; i++) {
 			res[current] = arr[i];
-			combinationBackTrack(res, arr, current+1, m);
+			combinationBackTrack(res, arr, current+1, size);
 		}
 	}
 
@@ -114,7 +150,7 @@ class Lecture6 {
 
 	//subsets
 	//lecture version
-	//
+	//permutation with repetition 2^n (select 0 or 1 at n postions, size is n)
 	public static void generateSubset(String str) {
 		if (str.length() == 0) return;
 
@@ -186,7 +222,7 @@ class Lecture6 {
 		if (sum == k) System.out.println(sb.toString());
 	}
 
-	//permutations  --- n is the size of output
+	//permutations w/o repetition --- n is the size of output 
 	public static void permutations(String str, int n) {
 		if (str.length() == 0 || n <= 0) return;
 		int[] res = new int[n];
@@ -197,7 +233,7 @@ class Lecture6 {
 	private static void permutations(int[] res, int current, int n, String str) {
 		if (current == n) {
 			//print
-			printCombination(res, n);
+			System.out.println(Arrays.toString(res));
 			return;
 		}
 
