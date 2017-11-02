@@ -193,7 +193,6 @@ class Trie {
 		
 	}
 }
-
 // suffix trie, (1. find substring~O(n), 2. how many times of substring occurs(check $ of substrings))
 // 3. Longest repeated substring (find longest node that has branched)
 // suffix tree (group chars together when there is a '$')
