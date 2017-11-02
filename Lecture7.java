@@ -186,7 +186,7 @@ class Trie {
 		str = str + "$";
 
 		for (int i = 0; i < str.length(); i ++) {
-			String sub = str.substring(str.length() - 1 - i, i + 1);
+			String sub = str.substring(str.length() - 1 - i);
 			insert(sub);
 			System.out.println(sub);
 		}
