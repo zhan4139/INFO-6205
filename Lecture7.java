@@ -186,14 +186,13 @@ class Trie {
 		str = str + "$";
 
 		for (int i = 0; i < str.length(); i ++) {
-			String sub = str.substring(str.length() - 1 - i, i + 1);
+			String sub = str.substring(str.length() - 1 - i);
 			insert(sub);
 			System.out.println(sub);
 		}
 		
 	}
 }
-
 // suffix trie, (1. find substring~O(n), 2. how many times of substring occurs(check $ of substrings))
 // 3. Longest repeated substring (find longest node that has branched)
 // suffix tree (group chars together when there is a '$')
