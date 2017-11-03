@@ -163,7 +163,7 @@ class Trie {
 		char[] arr = str.toCharArray();
 		Node curr = root;
 		for (int i = 0; i < arr.length; i ++) {
-			Node child = findChind(curr, arr[i]);
+			Node child = findChild(curr, arr[i]);
 			if (child == null) {//create new node
 				child = new Node (arr[i]);
 				curr.children.add(child);
@@ -174,7 +174,7 @@ class Trie {
 		}
 	}
 
-	private Node findChind(Node node, char ch) {
+	private Node findChild(Node node, char ch) {
 		for (int i = 0; i < node.children.size(); i++) {
 			if (node.children.get(i).val == ch)
 				return node.children.get(i);
