@@ -6,7 +6,7 @@ class Lecture6 {
 		//lecture version
 		binarySequence2(2);
 		
-		//my version
+		//my version need test
 		List<List<Integer>> res = binarySequence(2);
 		//System.out.println("Length of res is " + res.size());
 		for (List<Integer> l1 : res) {
@@ -41,13 +41,13 @@ class Lecture6 {
 	public static List<List<Integer>> binarySequence(int n) {
 		List<List<Integer>> res = new ArrayList<>();
 		if (n <= 0) return res;
-		backtracking(res, new ArrayList<Integer> (), n, 0, 0);
+		backtracking(res, new ArrayList<Integer> (), n, 0);
 		return res;
 	}
 
 	//my version - it is combination with reptition(Could be used for combination sum)
 	private static void backtracking(List<List<Integer>> res, List<Integer> temp, int n, int start, int index) {
-		if (index == n) {
+		if (start == n) {
 			res.add(new ArrayList<Integer>(temp));
 			return;
 		}
@@ -55,7 +55,7 @@ class Lecture6 {
 		for (int i = start; i < n; i++) {
 			temp.add(i);
 			//System.out.println("Add " + i);
-			backtracking(res, temp, n, i, index + 1);
+			backtracking(res, temp, n, i + 1);//because we can reuse the same element
 			//System.out.println("Remove " + temp.get(temp.size() - 1));
 			temp.remove(temp.size() - 1);
 		}
